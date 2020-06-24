@@ -2,22 +2,35 @@
     ob_start();
 ?>
 
-<div class="history-main-container">
-    <div class="history-top-container">
-        <a href="index.php?action=media" class="back">Retour</a>
-    </div>
-    <div class="history-top-container">
-        <a  class="btn btn-block bg-red"
-            <?php
-                echo "href='index.php?action=history&deleteall=". $_SESSION["user_id"] ."'";
-            ?>
-        >
-            Effacer l'historique
-        </a>
+<div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="index.php?action=media" class="btn btn-block bg-blue"><span style="color: white">Retour</span></a>
+            </div>
+            <div class="col-md-6">
+                <a  class="btn btn-block bg-red"
+                    <?php
+                    echo "href='index.php?action=history&deleteall=". $_SESSION["user_id"] ."'";
+                    ?>
+                >
+                    <span style="color: white">Effacer l'historique</span>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <table class="history-bottom-container">
-        <tbody class="history-bottom-container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th> </th>
+                <th>Film / Série</th>
+                <th>Saison</th>
+                <th>Épisode</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
             <?php
                 if (sizeof($history) === 0)
                 {
@@ -43,8 +56,8 @@
                             $episode =  "Episode " . $serie_episode["episode"];
                         }
 
-                        echo "<tr $rowStyle>";
-                            echo "<td class='history-trash-icon-container'>";
+                        echo "<tr>";
+                            echo "<td>";
                                 echo "<a href=index.php?action=history&delete=" . $historySql[$key]["id"] . ">";
                                     echo "<img
                                              src='public/img/trash_icon.png'
@@ -53,8 +66,8 @@
                                 echo "</a>";
                             echo "</td>";
                             echo "<td>$title </td>";
-                            if ($saison != null) echo "<td>$saison </td>";
-                            if ($episode != null) echo "<td>$episode</td>";
+                            echo "<td>$saison </td>";
+                            echo "<td>$episode</td>";
                             echo "<td>$started</td>";
                         echo "</tr>";
                     }

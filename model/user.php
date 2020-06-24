@@ -94,7 +94,7 @@ class User
      * -------- CREATE NEW USER ---------
      ************************************/
 
-    public function createUser() : void
+    public function createUser() : bool
     {
         // Open database connection
         $db = init_db();
@@ -118,16 +118,9 @@ class User
             'email' => $this->getEmail(),
             'password' => $this->getPassword()
         ));
-        if (!$this->sendActivationMail())
-        {
-            echo "<p>Le mail d'activation n'a pas pu être envoyé</p>";
-        }
-        else
-        {
-            echo "<p>Mail d'activation envoyé</p>";
-        }
         // Close database connection
         $db = null;
+        return $this->sendActivationMail();
     }
 
     /**************************************

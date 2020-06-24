@@ -25,12 +25,13 @@ function signupPage() {
 
 function signUpUser() {
     $newUser = new User();
+    $error_msg = null;
+    $success_msg = null;
     try
     {
         $newUser->setEmail($_POST["email"]);
         $newUser->setPassword($_POST["password"], $_POST["password_confirm"]);
-        $newUser->createUser();
-        $error_msg = null;
+        $success_msg = $newUser->createUser() ? "Un mail d'activation s'est envoyé" : "Le mail d'activation n'a pas pu être envoyé";
     }
     catch (Exception $e)
     {
@@ -38,6 +39,6 @@ function signUpUser() {
     }
     finally
     {
-        return $error_msg;
+        return array("success_msg" => $success_msg, "error_msg" => $error_msg);
     }
 }

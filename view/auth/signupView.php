@@ -28,17 +28,17 @@
             </div>
 
             <div class="form-group">
-              <div class="row">
-                <div class="col-md-6">
-                  <input type="submit" name="Valider" class="btn btn-block bg-red" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="submit" name="Valider" class="btn btn-block bg-red" />
+                    </div>
+                    <div class="col-md-6">
+                        <a href="index.php?action=login" class="btn btn-block bg-blue">Connexion</a>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                  <a href="index.php?action=login" class="btn btn-block bg-blue">Connexion</a>
-                </div>
-              </div>
             </div>
               <div class="form-group">
-                  <div class="row">
+                  <div class="row btn-container">
                       <div class="col-md-12">
                           <a href="index.php?action=contactus" class="btn btn-block bg-success">Contactez-nous</a>
                       </div>
@@ -48,9 +48,14 @@
             <?php
               if ( isset($_POST["Valider"]) )
               {
-                  $error_msg = signUpUser();
+                  $result = signUpUser();
+                  $success_msg = $result["success_msg"];
+                  $error_msg = $result["error_msg"];
               }
             ?>
+            <span class="success-msg">
+              <?= isset($success_msg) && $success_msg != null ? $success_msg : null; ?>
+            </span>
             <span class="error-msg">
               <?= isset($error_msg) && $error_msg != null ? $error_msg : null; ?>
             </span>
