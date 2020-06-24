@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  mer. 24 juin 2020 à 16:00
+-- Généré le :  mer. 24 juin 2020 à 23:27
 -- Version du serveur :  10.4.11-MariaDB
 -- Version de PHP :  7.4.1
 
@@ -56,20 +56,11 @@ CREATE TABLE `history` (
   `user_id` int(11) NOT NULL,
   `media_id` int(11) NOT NULL,
   `episode_id` int(11) DEFAULT NULL,
+  `lastTimeOpened` timestamp NOT NULL DEFAULT current_timestamp(),
   `start_date` datetime DEFAULT NULL,
   `finish_date` datetime DEFAULT NULL,
   `watch_duration` int(11) NOT NULL DEFAULT 0 COMMENT 'in seconds'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `history`
---
-
-INSERT INTO `history` (`id`, `user_id`, `media_id`, `episode_id`, `start_date`, `finish_date`, `watch_duration`) VALUES
-(1, 14, 1, NULL, NULL, NULL, 0),
-(2, 14, 3, 1, NULL, NULL, 0),
-(3, 14, 3, 2, NULL, NULL, 0),
-(4, 14, 3, 3, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -109,22 +100,22 @@ CREATE TABLE `series` (
   `serie_id` int(11) NOT NULL,
   `saison` int(11) NOT NULL,
   `episode` int(11) NOT NULL,
-  `name` varchar(254) CHARACTER SET latin1 NOT NULL,
-  `summary` longtext CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `name` varchar(254) NOT NULL,
+  `summary` longtext NOT NULL,
   `duration` time NOT NULL,
-  `url` varchar(100) CHARACTER SET latin1 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `url` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `series`
 --
 
 INSERT INTO `series` (`id`, `serie_id`, `saison`, `episode`, `name`, `summary`, `duration`, `url`) VALUES
-(1, 3, 1, 1, 'Episode 1', 'L\'ambitieux chef de gang Thomas Shelby tombe sur une caisse d\'armes égarée et saute sur l\'occasion pour renforcer son emprise sur la pègre de Birmingham.', '00:57:07', 'https://www.youtube.com/embed/OgtBFgqC1KQ'),
-(2, 3, 1, 2, 'Episode 2', 'Thomas provoque un gros bonnet local en truquant une course hippique et se met à dos une famille gitane. L\'inspecteur Chester Campbell prend la tête d\'un raid brutal.', '00:58:00', 'https://www.youtube.com/embed/cK9QjvEY7Xo'),
-(3, 3, 2, 1, 'Episode 1', 'Quand son pub fétiche est détruit par une bombe, Tommy Shelby, chef de gang de Birmingham, se voit forcé d\'assassiner un dissident irlandais.', '00:59:05', 'https://www.youtube.com/embed/Rde7qsxUCNY'),
-(4, 3, 2, 2, 'Episode 2', 'Après avoir assassiné un dissident irlandais, Tommy devient bien malgré lui un pion dans le jeu politique retors de l\'inspecteur Campbell.', '00:57:40', 'https://www.youtube.com/embed/baqrqWBzaHw'),
-(5, 3, 2, 3, 'Episode 3', 'Après être devenu le partenaire en affaires du chef de gang londonien Alfie Solomons, Tommy craint que l\'instabilité d\'Alfie ne pose problème.', '00:58:46', 'https://www.youtube.com/embed/qkW29nMKoEc');
+(1, 3, 1, 1, 'Episode 1', 'L\'ambitieux chef de gang Thomas Shelby tombe sur une caisse d\'armes égarée et saute sur l\'occasion pour renforcer son emprise sur la pègre de Birmingham.', '00:02:07', 'https://www.youtube.com/embed/OgtBFgqC1KQ'),
+(2, 3, 1, 2, 'Episode 2', 'Thomas provoque un gros bonnet local en truquant une course hippique et se met à dos une famille gitane. L\'inspecteur Chester Campbell prend la tête d\'un raid brutal.', '00:10:39', 'https://www.youtube.com/embed/cK9QjvEY7Xo'),
+(3, 3, 2, 1, 'Episode 1', 'Quand son pub fétiche est détruit par une bombe, Tommy Shelby, chef de gang de Birmingham, se voit forcé d\'assassiner un dissident irlandais.', '00:01:52', 'https://www.youtube.com/embed/Rde7qsxUCNY'),
+(4, 3, 2, 2, 'Episode 2', 'Après avoir assassiné un dissident irlandais, Tommy devient bien malgré lui un pion dans le jeu politique retors de l\'inspecteur Campbell.', '00:15:52', 'https://www.youtube.com/embed/baqrqWBzaHw'),
+(5, 3, 2, 3, 'Episode 3', 'Après être devenu le partenaire en affaires du chef de gang londonien Alfie Solomons, Tommy craint que l\'instabilité d\'Alfie ne pose problème.', '00:17:45', 'https://www.youtube.com/embed/qkW29nMKoEc');
 
 -- --------------------------------------------------------
 
@@ -138,15 +129,6 @@ CREATE TABLE `user` (
   `password` varchar(80) NOT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `user`
---
-
-INSERT INTO `user` (`id`, `email`, `password`, `isActive`) VALUES
-(13, 'roman.clavier.2001@gmail.com', '123', 1),
-(14, 'coding@gmail.com', '123456', 1),
-(15, 'crabou@gmail.com', 'a', 0);
 
 --
 -- Index pour les tables déchargées
@@ -164,7 +146,8 @@ ALTER TABLE `genre`
 ALTER TABLE `history`
   ADD PRIMARY KEY (`id`),
   ADD KEY `history_user_id_fk_media_id` (`user_id`),
-  ADD KEY `history_media_id_fk_media_id` (`media_id`);
+  ADD KEY `history_media_id_fk_media_id` (`media_id`),
+  ADD KEY `history_episode_id_fk_series_id` (`episode_id`);
 
 --
 -- Index pour la table `media`
@@ -194,31 +177,31 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `genre`
 --
 ALTER TABLE `genre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `series`
 --
 ALTER TABLE `series`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
@@ -228,9 +211,9 @@ ALTER TABLE `user`
 -- Contraintes pour la table `history`
 --
 ALTER TABLE `history`
+  ADD CONSTRAINT `history_episode_id_fk_series_id` FOREIGN KEY (`episode_id`) REFERENCES `series` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `history_media_id_fk_media_id` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `history_user_id_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `history_episode_id_fk_series_id` FOREIGN KEY (`episode_id`) REFERENCES `series` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `history_user_id_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `media`

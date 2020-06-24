@@ -19,7 +19,8 @@
     <?php
         foreach( $medias as $media ):
             $get = "index.php?media=" . $media['id'];
-            if ($media["type"] === "Série") {
+            if ($media["type"] === "Série")
+            {
                 $get .= "&saison=1&episode=1";
             }
     ?>
@@ -30,6 +31,10 @@
                 </div>
             </div>
             <div class="title"><?= $media['title']; ?></div>
+            <?php
+                $date = explode('-', $media['release_date']);
+                echo "<div class=\"title\">$date[2] / $date[1] / $date[0]</div>";
+            ?>
         </a>
     <?php endforeach; ?>
 </div>
