@@ -37,6 +37,14 @@
                 </div>
               </div>
             </div>
+              <div class="form-group">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <a href="index.php?action=contactus" class="btn btn-block bg-success">Contactez-nous</a>
+                      </div>
+                  </div>
+              </div>
+
             <?php
               if ( isset($_POST["Valider"]) )
               {

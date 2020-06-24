@@ -27,6 +27,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="index.php?action=contactus" class="btn btn-block bg-success">Contactez-nous</a>
+                        </div>
+                    </div>
+                </div>
                 <span class="error-msg">
                   <?= isset($error_msg) && $error_msg != null ? $error_msg : null; ?>
                 </span>

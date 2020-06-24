@@ -19,25 +19,38 @@
         <div class="sidebar-menu">
             <ul>
                 <?php
-                    if (isset($_GET["action"]) && $_GET["action"] === "media") {
-                        echo "<li class=\"active\"><a href=\"index.php?action=media\">Médias</a></li>";
-                    } else {
-                        echo "<li><a href=\"index.php?action=media\">Médias</a></li>";
-                    }
+                    if (isset($_SESSION["user_id"]))
+                    {
 
-                    if (isset($_GET["action"]) && $_GET["action"] === "history") {
-                        echo "<li class=\"active\"><a href=\"index.php?action=history\">Historique</a></li>";
-                    } else {
-                        echo "<li><a href=\"index.php?action=history\">Historique</a></li>";
-                    }
+                        if (isset($_GET["action"]) && $_GET["action"] === "media")
+                        {
+                            echo "<li class=\"active\"><a href=\"index.php?action=media\">Médias</a></li>";
+                        }
+                        else
+                        {
+                            echo "<li><a href=\"index.php?action=media\">Médias</a></li>";
+                        }
 
-                    if (isset($_GET["action"]) && $_GET["action"] === "contactus") {
-                        echo "<li class=\"active\"><a href=\"index.php?action=contactus\">Nous contacter</a></li>";
-                    } else {
-                        echo "<li><a href=\"index.php?action=contactus\">Nous contacter</a></li>";
+                        if (isset($_GET["action"]) && $_GET["action"] === "history")
+                        {
+                            echo "<li class=\"active\"><a href=\"index.php?action=history\">Historique</a></li>";
+                        }
+                        else
+                        {
+                            echo "<li><a href=\"index.php?action=history\">Historique</a></li>";
+                        }
+
+                        if (isset($_GET["action"]) && $_GET["action"] === "contactus")
+                        {
+                            echo "<li class=\"active\"><a href=\"index.php?action=contactus\">Nous contacter</a></li>";
+                        }
+                        else
+                        {
+                            echo "<li><a href=\"index.php?action=contactus\">Nous contacter</a></li>";
+                        }
+                        echo "<li><a href=\"index.php?action=logout\">Me déconnecter</a></li>";
                     }
                 ?>
-                <li><a href="index.php?action=logout">Me déconnecter</a></li>
             </ul>
         </div>
     </nav>
