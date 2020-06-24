@@ -12,7 +12,7 @@
             <?php
                 if ( isset($_GET["id"]) )
                 {
-                    User::Activation($_GET["id"]);
+                    User::activationById($_GET["id"]);
                 }
                 else
                 {

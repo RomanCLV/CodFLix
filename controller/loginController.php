@@ -43,6 +43,7 @@ function login($post) : void
     if ($isValid) {
         $data->email = $post['email'];
         $data->password = $post['password'];
+
         $user = new User($data);
         $userData = $user->getUserByEmail();
 

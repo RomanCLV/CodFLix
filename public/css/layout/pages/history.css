@@ -59,3 +59,9 @@
 .history-row1 td, .history-row2 td {
     padding-right: 30px;
 }
+
+.history-empty-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

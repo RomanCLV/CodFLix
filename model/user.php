@@ -62,7 +62,8 @@ class User
             throw new Exception('Vos mots de passes sont différents');
         endif;
 
-        $this->password = $password;
+        //$this->password = $password;
+        $this->password = hash('sha256', $password);
     }
 
     /***************************
@@ -139,7 +140,7 @@ class User
     {
         $userSql = $this->getUserByEmail();
         $userId = $userSql["id"];
-        $link = "localhost:63342/ec-code-2020-codflix-php-master-master/index.php?action=activation&id=" . $userId;
+        $link = "localhost:63342/codflix/index.php?action=activation&id=" . $userId;
         $message = "
         Bienvenue sur Cod'Flix,
         Pour activer votre compte, veuillez cliquer sur le lien ci-dessous
@@ -149,13 +150,13 @@ class User
         return mail($this->getEmail(),
             "Activer votre compte Cod'Flix !",
             $message,
-            "From: inscription@codflix.com");
+            "From: activation@codflix.com");
     }
 
     /**************************************
      * -------- ACTIVATION --------
      ***************************************/
-    public static function Activation($id) {
+    public static function activationById($id) {
         // Open database connection
         $db = init_db();
         $sql = "UPDATE user SET `isActive`=1 WHERE id = " . $id;
