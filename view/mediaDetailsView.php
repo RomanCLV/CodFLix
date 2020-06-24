@@ -24,9 +24,9 @@
                 if ($mediaDetail["duration"] != null) {
                     $time = explode(':', $mediaDetail['duration']);
                     if ($time[0] != 0) {
-                        echo $time[0] . "h";
+                        echo $time[0] . "h ";
                     }
-                    echo $time[1] . "m";
+                    echo $time[1] . "m ";
                     if ($time[2] != 0) {
                         echo $time[2] . "s";
                     }
@@ -82,12 +82,10 @@
                 echo "<p class=\"info\">";
                     $time = explode(':', $episodeSelected['duration']);
                     if ($time[0] != 0) {
-                        echo $time[0] . "h";
+                        echo $time[0] . "h ";
                     }
-                    echo $time[1] . "m";
-                    if ($time[2] != 0) {
-                        echo $time[2] . "s";
-                    }
+                    echo $time[1] . "m ";
+                    echo $time[2] . "s";
                 echo "</p>";
                 echo "<p class=\"summary\">";
                     echo $episodeSelected['summary'];
