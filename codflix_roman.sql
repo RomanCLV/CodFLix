@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  mer. 24 juin 2020 à 11:46
+-- Généré le :  mer. 24 juin 2020 à 16:00
 -- Version du serveur :  10.4.11-MariaDB
 -- Version de PHP :  7.4.1
 
@@ -21,6 +21,9 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `codflix`
 --
+
+DROP DATABASE IF EXISTS `codflix`;
+CREATE DATABASE `codflix`;
 
 -- --------------------------------------------------------
 
@@ -52,10 +55,21 @@ CREATE TABLE `history` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `media_id` int(11) NOT NULL,
-  `start_date` datetime NOT NULL,
+  `episode_id` int(11) DEFAULT NULL,
+  `start_date` datetime DEFAULT NULL,
   `finish_date` datetime DEFAULT NULL,
   `watch_duration` int(11) NOT NULL DEFAULT 0 COMMENT 'in seconds'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `history`
+--
+
+INSERT INTO `history` (`id`, `user_id`, `media_id`, `episode_id`, `start_date`, `finish_date`, `watch_duration`) VALUES
+(1, 14, 1, NULL, NULL, NULL, 0),
+(2, 14, 3, 1, NULL, NULL, 0),
+(3, 14, 3, 2, NULL, NULL, 0),
+(4, 14, 3, 3, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -69,6 +83,7 @@ CREATE TABLE `media` (
   `title` varchar(100) NOT NULL,
   `type` varchar(20) NOT NULL,
   `status` varchar(20) NOT NULL,
+  `duration` time DEFAULT NULL,
   `release_date` date NOT NULL,
   `summary` longtext NOT NULL,
   `trailer_url` varchar(100) NOT NULL
@@ -78,10 +93,10 @@ CREATE TABLE `media` (
 -- Déchargement des données de la table `media`
 --
 
-INSERT INTO `media` (`id`, `genre_id`, `title`, `type`, `status`, `release_date`, `summary`, `trailer_url`) VALUES
-(1, 3, 'Star Wars, épisode I : La Menace fantôme', 'Film', 'Média publié', '1999-10-13', 'Avant de devenir un célèbre chevalier Jedi, et bien avant de se révéler l\'âme la plus noire de la galaxie, Anakin Skywalker est un jeune esclave sur la planète Tatooine. La Force est déjà puissante en lui et il est un remarquable pilote de Podracer. Le maître Jedi Qui-Gon Jinn le découvre et entrevoit alors son immense potentiel. Pendant ce temps, l\'armée de droïdes de l\'insatiable Fédération du Commerce a envahi Naboo dans le cadre d\'un plan secret des Sith visant à accroître leur pouvoir.', 'https://www.youtube.com/embed/utFSzR0r-20'),
-(2, 2, 'L\'Exorciste', 'Film', 'Média publié', '1974-09-11', 'Regan, âgée de 12 ans, souffre d\'inquiétants troubles du comportement. Après de nombreux examens médicaux, sa mère Chris MacNeil sollicite l\'aide d\'un jeune prête psychiatre, le Père Karras qui lui apprend que la jeune fille est possédée par le diable. Avec l\'aide de son confrère le père Merrin, il va se lancer dans des séances d\'exorcisme d\'une incroyable intensité...', 'https://www.youtube.com/embed/kuowPVqvnRk'),
-(3, 1, 'Peaky Blinders', 'Série', 'En production', '2013-09-12', 'Birmingham, en 1919. Un gang familial règne sur un quartier de la ville : les Peaky Blinders, ainsi nommés pour les lames de rasoir qu\'ils cachent dans la visière de leur casquette.', 'https://www.youtube.com/embed/oVzVdvGIC7U');
+INSERT INTO `media` (`id`, `genre_id`, `title`, `type`, `status`, `duration`, `release_date`, `summary`, `trailer_url`) VALUES
+(1, 3, 'Star Wars, épisode I : La Menace fantôme', 'Film', 'Média publié', '02:16:00', '1999-10-13', 'Avant de devenir un célèbre chevalier Jedi, et bien avant de se révéler l\'âme la plus noire de la galaxie, Anakin Skywalker est un jeune esclave sur la planète Tatooine. La Force est déjà puissante en lui et il est un remarquable pilote de Podracer. Le maître Jedi Qui-Gon Jinn le découvre et entrevoit alors son immense potentiel. Pendant ce temps, l\'armée de droïdes de l\'insatiable Fédération du Commerce a envahi Naboo dans le cadre d\'un plan secret des Sith visant à accroître leur pouvoir.', 'https://www.youtube.com/embed/utFSzR0r-20'),
+(2, 2, 'L\'Exorciste', 'Film', 'Média publié', '02:12:00', '1974-09-11', 'Regan, âgée de 12 ans, souffre d\'inquiétants troubles du comportement. Après de nombreux examens médicaux, sa mère Chris MacNeil sollicite l\'aide d\'un jeune prête psychiatre, le Père Karras qui lui apprend que la jeune fille est possédée par le diable. Avec l\'aide de son confrère le père Merrin, il va se lancer dans des séances d\'exorcisme d\'une incroyable intensité...', 'https://www.youtube.com/embed/kuowPVqvnRk'),
+(3, 1, 'Peaky Blinders', 'Série', 'En production', NULL, '2013-09-12', 'Birmingham, en 1919. Un gang familial règne sur un quartier de la ville : les Peaky Blinders, ainsi nommés pour les lames de rasoir qu\'ils cachent dans la visière de leur casquette.', 'https://www.youtube.com/embed/oVzVdvGIC7U');
 
 -- --------------------------------------------------------
 
@@ -185,7 +200,7 @@ ALTER TABLE `genre`
 -- AUTO_INCREMENT pour la table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `media`
@@ -214,7 +229,8 @@ ALTER TABLE `user`
 --
 ALTER TABLE `history`
   ADD CONSTRAINT `history_media_id_fk_media_id` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `history_user_id_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `history_user_id_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `history_episode_id_fk_series_id` FOREIGN KEY (`episode_id`) REFERENCES `series` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `media`

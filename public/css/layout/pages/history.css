@@ -1,0 +1,60 @@
+/**********
+* History page rules
+**********/
+
+.history-main-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-top-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.history-bottom-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.history-row1 {
+    background-color: rgb(207, 230, 255);
+    padding-left: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.history-row2 {
+    background-color: rgb(167, 209, 255);
+    padding-left: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.history-row1:hover, .history-row2:hover {
+    background-color: rgb(83, 165, 255);
+    padding-left: 0;
+}
+
+.history-trash-icon-container {
+    display: none;
+    width: 50px;
+}
+
+.history-row1:hover .history-trash-icon-container, .history-row2:hover .history-trash-icon-container {
+    display: block;
+    padding-left: 15px;
+}
+
+.history-trash-icon {
+    width: 20px;
+}
+
+.history-row1 td, .history-row2 td {
+    padding-right: 30px;
+}

@@ -4,7 +4,6 @@ require_once('database.php');
 
 class Media
 {
-
     protected $id;
     protected $genre_id;
     protected $title;
@@ -16,7 +15,6 @@ class Media
 
     public function __construct($media)
     {
-
         $this->setId(isset($media->id) ? $media->id : null);
         $this->setGenreId($media->genre_id);
         $this->setTitle($media->title);
@@ -147,7 +145,7 @@ class Media
         return $req->fetch();
     }
 
-    public static  function getAllSaisons($serie_id)
+    public static function getAllSaisons($serie_id)
     {
         // Open database connection
         $db = init_db();
@@ -161,21 +159,7 @@ class Media
         return $req->fetchAll();
     }
 
-    public static  function getAllEpisodesOfAllSaisons($serie_id) : array
-    {
-        // Open database connection
-        $db = init_db();
-        $sql = "SELECT * FROM series WHERE serie_id = " . $serie_id;
-        $req = $db->prepare($sql);
-        $req->execute();
-
-        // Close database connection
-        $db = null;
-
-        return $req->fetchAll();
-    }
-
-    public static  function getAllEpisodesOfSaison($serie_id, $saison) : array
+    public static function getAllEpisodesOfSaison($serie_id, $saison) : array
     {
         // Open database connection
         $db = init_db();
@@ -189,7 +173,7 @@ class Media
         return $req->fetchAll();
     }
 
-    public static  function getEpisode($serie_id, $saison, $episode)
+    public static function getEpisode($serie_id, $saison, $episode)
     {
         // Open database connection
         $db = init_db();
@@ -199,7 +183,19 @@ class Media
 
         // Close database connection
         $db = null;
+        return $req->fetch();
+    }
 
+    public static function getEpisodeById($episode_id)
+    {
+        // Open database connection
+        $db = init_db();
+        $sql = "SELECT * FROM series WHERE id = " . $episode_id;
+        $req = $db->prepare($sql);
+        $req->execute();
+
+        // Close database connection
+        $db = null;
         return $req->fetch();
     }
 }
