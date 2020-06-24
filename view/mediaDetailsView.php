@@ -19,17 +19,36 @@
             <?= $mediaDetail["title"]; ?>
         </p>
         <p class="info">
-            <?= $mediaDetail["type"]; ?> | <?= $mediaGender["name"]; ?> | <?= $mediaDetail["release_date"]; ?>
+            <?= $mediaDetail["type"]; ?> |
+            <?php
+                if ($mediaDetail["duration"] != null) {
+                    $time = explode(':', $mediaDetail['duration']);
+                    if ($time[0] != 0) {
+                        echo $time[0] . "h";
+                    }
+                    echo $time[1] . "m";
+                    if ($time[2] != 0) {
+                        echo $time[2] . "s";
+                    }
+                    echo " | ";
+                }
+            ?>
+            <?= $mediaGender["name"]; ?> |
+            <?php
+                $date = explode('-', $mediaDetail["release_date"]);
+                echo "$date[2] / $date[1] / $date[0]";
+            ?>
         </p>
 
         <p class="summary">
             <?= $mediaDetail["summary"]; ?>
         </p>
+
     </div>
 
     <div class="media-detail-video-container">
         <div class="detail-video">
-            <iframe allowfullscreen="" frameborder="0" src="<?= $mediaDetail['trailer_url']; ?>" >
+        <iframe allowfullscreen="" frameborder="0" src="<?= $mediaDetail['trailer_url']; ?>?autoplay=1" >
             </iframe>
         </div>
     </div>
@@ -58,11 +77,17 @@
                         }
                     echo "</select>";
 
-
                 echo "</div>";
 
                 echo "<p class=\"info\">";
-                    echo $episodeSelected['duration'];
+                    $time = explode(':', $episodeSelected['duration']);
+                    if ($time[0] != 0) {
+                        echo $time[0] . "h";
+                    }
+                    echo $time[1] . "m";
+                    if ($time[2] != 0) {
+                        echo $time[2] . "s";
+                    }
                 echo "</p>";
                 echo "<p class=\"summary\">";
                     echo $episodeSelected['summary'];
@@ -71,7 +96,7 @@
 
             echo "<div class=\"media-detail-video-container\">";
                 echo "<div class=\"detail-video\">";
-                    echo "<iframe allowfullscreen=\"\" frameborder=\"0\" src=\"" . $episodeSelected["url"] . "\"></iframe>";
+                    echo "<iframe allowfullscreen=\"\" frameborder=\"0\" src=\"" . $episodeSelected["url"] . "?start=10" . "\"></iframe>";
                 echo "</div>";
             echo "</div>";
         echo "</div>";
