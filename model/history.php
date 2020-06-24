@@ -39,4 +39,20 @@ class History
         $req->execute();
         return $req->fetchAll();
     }
+
+    public static function dropHistoryById($historyId) : void
+    {
+        $db = init_db();
+        $sql = "DELETE FROM history WHERE id = " . $historyId;
+        $req = $db->prepare($sql);
+        $req->execute();
+    }
+
+    public static function dropHistoriesByUserId($userId) : void
+    {
+        $db = init_db();
+        $sql = "DELETE FROM history WHERE user_id = " . $userId;
+        $req = $db->prepare($sql);
+        $req->execute();
+    }
 }

@@ -3,30 +3,21 @@
 ?>
 
 <script type="text/javascript">
-
-    function onClickDeleteOne(value)
+    if (location.href.split('?')[1].split('&').length > 1)
     {
-        alert("del one : " + value.split("-")[1]);
+        location.href = "index.php?action=history";
     }
-
-    function onClickDeleteAll(userId)
-    {
-        let sql = "DELETE FROM `history` WHERE id = " + userId;
-        alert(sql);
-    }
-
 </script>
 
 <div class="history-main-container">
     <div class="history-top-container">
         <a href="index.php?action=media" class="back">Retour</a>
     </div>
-    <div>
+    <div class="history-top-container">
         <a  class="btn btn-block bg-red"
             <?php
-            echo "onclick='onClickDeleteAll('" . $_SESSION["user_id"] . "')";
+                echo "href='index.php?action=history&deleteall=". $_SESSION["user_id"] ."'";
             ?>
-                href="index.php?action=history"
         >
             Efface l'historique
         </a>
@@ -55,12 +46,12 @@
 
                     echo "<tr $rowStyle>";
                         echo "<td class='history-trash-icon-container'>";
-                           echo "<img 
-                                     id='trashid-". $historySql[$key]["id"] . "'
-                                     src='public/img/trash_icon.png'
-                                     class='history-trash-icon'
-                                     onclick='onClickDeleteOne(this.id)'
-                                     />";
+                            echo "<a href=index.php?action=history&delete=" . $historySql[$key]["id"] . ">";
+                                echo "<img
+                                         src='public/img/trash_icon.png'
+                                         class='history-trash-icon'
+                                         />";
+                            echo "</a>";
                         echo "</td>";
                         echo "<td>$title </td>";
                         if ($saison != null) echo "<td>$saison </td>";

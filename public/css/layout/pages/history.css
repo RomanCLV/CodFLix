@@ -10,6 +10,7 @@
 .history-top-container {
     display: flex;
     flex-direction: row;
+    margin-top: 20px;
 }
 
 .history-bottom-container {

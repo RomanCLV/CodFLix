@@ -8,6 +8,14 @@ require_once('model/history.php');
 
 function historyPage()
 {
+    if (isset($_GET["delete"]))
+    {
+        History::dropHistoryById($_GET["delete"]);
+    }
+    else if (isset($_GET["deleteall"]))
+    {
+        History::dropHistoriesByUserId($_GET["deleteall"]);
+    }
     $historySql = History::getHistoryByUserId($_SESSION["user_id"]);
     $history = array();
     $episodesIds = array();

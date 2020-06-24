@@ -28,10 +28,10 @@ function mediaPage(): void
                 array_push($episodes, $value["name"]);
             }
 
-            History::SaveHistoryMedia($_SESSION["user_id"], $mediaDetail["id"], $episodeSelected["id"]);
+            History::saveHistoryMedia($_SESSION["user_id"], $mediaDetail["id"], $episodeSelected["id"]);
         }
         else {
-            History::SaveHistoryMedia($_SESSION["user_id"], $mediaDetail["id"]);
+            History::saveHistoryMedia($_SESSION["user_id"], $mediaDetail["id"]);
         }
 
         require('view/mediaDetailsView.php');
