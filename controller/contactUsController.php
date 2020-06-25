@@ -1,7 +1,7 @@
 <?php
 
 /**********************************
- * ----- LOAD CONTATC US PAGE -----
+ * ----- LOAD CONTACT US PAGE -----
  **********************************/
 
 function contactUsPage()

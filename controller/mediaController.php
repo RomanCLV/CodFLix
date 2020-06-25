@@ -16,13 +16,13 @@ function mediaPage(): void
         if ($mediaDetail["type"] === "Série") {
             $episodeSelected = Media::getEpisode($mediaDetail["id"], $_GET["saison"], $_GET["episode"]);
 
-            $result = Media::getAllSaisons($mediaDetail["id"]);
+            $result = Media::getAllSeasons($mediaDetail["id"]);
             $saisons = array();
             foreach ($result as $value) {
                 array_push($saisons, $value["saison"]);
             }
 
-            $result = Media::getAllEpisodesOfSaison($mediaDetail["id"], $_GET["saison"]);
+            $result = Media::getAllEpisodesOfSeason($mediaDetail["id"], $_GET["saison"]);
             $episodes = array();
             foreach ($result as $value) {
                 array_push($episodes, $value["name"]);

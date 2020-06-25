@@ -1,6 +1,4 @@
-<?php
-    ob_start();
-?>
+<?php ob_start(); ?>
 
 <script type="text/javascript">
     /**
@@ -9,6 +7,39 @@
      */
     function selectionChanged(val) {
         location.href = val;
+    }
+
+    const tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
+
+    let done = false;
+
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+            done = true;
+            console.log(done);
+        }
+    }
+    function stopVideo() {
+
     }
 </script>
 
@@ -39,17 +70,14 @@
                 echo "$date[2] / $date[1] / $date[0]";
             ?>
         </p>
-
         <p class="summary">
             <?= $mediaDetail["summary"]; ?>
         </p>
-
     </div>
 
     <div class="media-detail-video-container">
         <div class="detail-video">
-        <iframe allowfullscreen="" frameborder="0" src="<?= $mediaDetail['trailer_url']; ?>?autoplay=1" >
-            </iframe>
+            <iframe id="<?= $mediaDetail["type"] === "Série" ? "playerSnd" : "player" ?>" src="<?=$mediaDetail['trailer_url'] . "?enablejsapi=1\""?> frameborder='0' allow='encrypted-media;' allowfullscreen></iframe>
         </div>
     </div>
 </div>
@@ -58,7 +86,6 @@
     if ($mediaDetail["type"] === "Série") {
         echo "<div class=\"media-detail-main-container\">";
             echo "<div class=\"media-detail-container\">";
-
                 echo "<div class='saison-episode-container'>";
                     echo "<select name=\"mediaDetailSaison\" id='mediaDetailSaison' onchange='selectionChanged(this.value)'>";
                         foreach ($saisons as $saison) {
@@ -67,7 +94,6 @@
                             echo "<option value=\"$link\" $selected>Saison $saison</option>";
                         }
                     echo "</select>";
-
                     echo "<select name=\"mediaDetailEpisode\" id='mediaDetailEpisode' onchange='selectionChanged(this.value)'>";
                         foreach ($episodes as $key => $episode) {
                             $link = "index.php?media=" . $_GET["media"] . "&amp;saison=" . $_GET["saison"] . "&amp;episode=" . ($key + 1);
@@ -76,9 +102,7 @@
                             echo "<option value=\"$link\" $selected>$episode</option>";
                         }
                     echo "</select>";
-
                 echo "</div>";
-
                 echo "<p class=\"info\">";
                     $time = explode(':', $episodeSelected['duration']);
                     if ($time[0] != 0) {
@@ -94,7 +118,7 @@
 
             echo "<div class=\"media-detail-video-container\">";
                 echo "<div class=\"detail-video\">";
-                    echo "<iframe allowfullscreen=\"\" frameborder=\"0\" src=\"" . $episodeSelected["url"] . "?start=10" . "\"></iframe>";
+                    echo "<iframe id=\"player\" src=\"" . $mediaDetail['trailer_url'] . "?enablejsapi=1\"> frameborder='0' allow='encrypted-media;' allowfullscreen></iframe>";
                 echo "</div>";
             echo "</div>";
         echo "</div>";

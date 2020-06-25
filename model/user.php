@@ -2,12 +2,23 @@
 
 require_once('database.php');
 
+/**
+ * Class User
+ * @property int $id
+ * @property string $email
+ * @property string $password
+ * @property bool $isActive
+ */
 class User
 {
-    protected $id;
-    protected $email;
-    protected $password;
-    protected $isActive;
+    protected int $id;
+    protected string $email;
+    protected string $password;
+    protected bool $isActive;
+
+    /***************************
+     * ----- CONSTRUCTOR -------
+     ***************************/
 
     public function __construct($user = null)
     {
@@ -24,19 +35,11 @@ class User
      * -------- SETTERS ---------
      ***************************/
 
-    /**
-     * @param int $id
-     * @throws Exception
-     */
     public function setId($id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * @param string $email
-     * @throws Exception
-     */
     public function setEmail($email) : void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)):
@@ -45,11 +48,6 @@ class User
         $this->email = $email;
     }
 
-    /**
-     * @param string $password
-     * @param string $password_confirm
-     * @throws Exception
-     */
     public function setPassword($password, $password_confirm) : void
     {
         if (strpos($password, " ") != false) {
@@ -94,25 +92,24 @@ class User
      * -------- CREATE NEW USER ---------
      ************************************/
 
+    /**
+     * @return bool Return true if a activation mail was send, else return false.
+     * @throws Exception If the user already exists
+     */
     public function createUser() : bool
     {
         // Open database connection
         $db = init_db();
         $sql = "SELECT * FROM user WHERE email = '" . $this->email . "'";
-
         // Check if email already exist
         $req = $db->prepare($sql);
-
         //$req->execute(array($this->getEmail()));
         $req->execute();
-
         if ($req->rowCount() > 0) {
             throw new Exception("Email ou mot de passe incorrect");
         }
-
         // Insert new user
         $req->closeCursor();
-
         $req = $db->prepare("INSERT INTO user ( email, password ) VALUES ( :email, :password )");
         $req->execute(array(
             'email' => $this->getEmail(),
@@ -123,10 +120,12 @@ class User
         return $this->sendActivationMail();
     }
 
-    /**************************************
-     * -------- SEND ACTIVATION MAIL --------
+    /***************************************
+     * -------- SEND ACTIVATION MAIL -------
      ***************************************/
+
     /**
+     * Send an email with a link to active an user account.
      * @return bool if the mail was send or not
      */
     private function sendActivationMail() : bool
@@ -146,10 +145,16 @@ class User
             "From: activation@codflix.com");
     }
 
-    /**************************************
+    /******************************
      * -------- ACTIVATION --------
-     ***************************************/
-    public static function activationById($id) {
+     *****************************/
+
+    /**
+     * Active an user account.
+     * @param int $id The user's id.
+     */
+    public static function activationById($id) : void
+    {
         // Open database connection
         $db = init_db();
         $sql = "UPDATE user SET `isActive`=1 WHERE id = " . $id;
@@ -164,6 +169,11 @@ class User
      * -------- GET USER DATA BY ID --------
      ***************************************/
 
+    /**
+     * Get a user by its id.
+     * @param int $id The user's id.
+     * @return mixed
+     */
     public static function getUserById($id)
     {
         // Open database connection
@@ -172,10 +182,8 @@ class User
         $req = $db->prepare($sql);
         //$req->execute(array($id));
         $req->execute();
-
         // Close database connection
         $db = null;
-
         return $req->fetch();
     }
 
@@ -183,6 +191,10 @@ class User
      * ------- GET USER DATA BY EMAIL -------
      ****************************************/
 
+    /**
+     * Get a user by its email.
+     * @return mixed
+     */
     public function getUserByEmail()
     {
         // Open database connection
@@ -191,15 +203,8 @@ class User
         $req = $db->prepare($sql);
         //$req->execute(array($this->getEmail()));
         $req->execute();
-
         // Close database connection
         $db = null;
-
         return $req->fetch();
-    }
-
-    public function __toString() : string
-    {
-        return "user : { " . $this->id . "," . $this->email . "," . $this->password . "}";
     }
 }

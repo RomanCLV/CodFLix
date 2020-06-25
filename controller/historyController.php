@@ -10,12 +10,12 @@ function historyPage()
 {
     if (isset($_GET["delete"]))
     {
-        History::dropHistoryById($_GET["delete"]);
+        History::deleteHistoryById($_GET["delete"]);
         header('location: index.php?action=history ');
     }
     else if (isset($_GET["deleteall"]))
     {
-        History::dropHistoriesByUserId($_GET["deleteall"]);
+        History::deleteHistoriesByUserId($_GET["deleteall"]);
         header('location: index.php?action=history ');
     }
     else {

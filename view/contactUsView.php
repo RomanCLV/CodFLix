@@ -1,6 +1,4 @@
-<?php
-    ob_start();
-?>
+<?php ob_start(); ?>
 
 <div class="form-group">
     <div class="row">
