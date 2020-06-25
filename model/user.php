@@ -7,19 +7,23 @@ require_once('database.php');
  * @property int $id
  * @property string $email
  * @property string $password
- * @property bool $isActive
+ * @property bool|null $isActive
  */
 class User
 {
-    protected int $id;
+    protected $id;
     protected string $email;
     protected string $password;
-    protected bool $isActive;
+    protected ?bool $isActive;
 
     /***************************
      * ----- CONSTRUCTOR -------
-     ***************************/
+     **************************/
 
+    /**
+     * @param null $user
+     * @throws Exception
+     */
     public function __construct($user = null)
     {
         $this->isActive = false;
@@ -31,7 +35,7 @@ class User
         endif;
     }
 
-    /***************************
+    /****************************
      * -------- SETTERS ---------
      ***************************/
 

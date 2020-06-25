@@ -45,7 +45,13 @@
 
 <div class="media-detail-main-container">
     <div class="media-detail-container">
-        <a href="index.php?action=media" class="back">Retour</a>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-5">
+                    <a href="index.php?action=media" class="btn btn-block bg-blue"><span style="color: white">Retour</span></a>
+                </div>
+            </div>
+        </div>
         <p class="title">
             <?= $mediaDetail["title"]; ?>
         </p>

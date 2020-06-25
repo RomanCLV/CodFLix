@@ -44,7 +44,9 @@ function login($post) : void
         $data->email = $post['email'];
         $data->password = $post['password'];
 
+        echo "<p>c'est valid</p>";
         $user = new User($data);
+        echo "<p>c'est valid</p>";
         $userData = $user->getUserByEmail();
 
         $error_msg = "Email ou mot de passe incorrect";

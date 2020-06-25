@@ -31,10 +31,15 @@
         <tbody>
         <?php
             if (sizeof($history) === 0) {
-                echo "<tr class='history-empty-container'><td>Votre historique est vide</td></tr>";
+                echo "<tr>";
+                    echo "<td>" . null . "</td>";
+                    echo "<td>Votre historique est vide</td>";
+                    echo "<td>" . null . "</td>";
+                    echo "<td>" . null . "</td>";
+                    echo "<td>" . null . "</td>";
+                echo "</tr>";
             } else {
                 foreach ($history as $key => $media) {
-                    $rowStyle = $key % 2 === 0 ? "class='history-row1'" : "class='history-row2'";
 
                     $title = $media["title"];
                     $saison = null;

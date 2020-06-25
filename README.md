@@ -9,3 +9,6 @@
 1. Follow the address of your repo. For example, if your repo is in ``www/codflix/``, the URL should be http://localhost/codflix or http://127.0.0.1/codflix
 
 Nothing else is required. You can now start your development
+
+### Roman Clavier
+1. Port database : `localhost:3306`, voir constructor `model\database.php`
