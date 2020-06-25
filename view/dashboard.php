@@ -35,6 +35,12 @@
                                 echo "<li><a href=\"index.php?action=contactus\">Nous contacter</a></li>";
                             }
 
+                            if (isset($_GET["action"]) && $_GET["action"] === "myaccount") {
+                                echo "<li class=\"active\"><a href=\"index.php?action=myaccount\">Mon compte</a></li>";
+                            } else {
+                                echo "<li><a href=\"index.php?action=myaccount\">Mon compte</a></li>";
+                            }
+
                             echo "<li><a href=\"index.php?action=logout\">Me déconnecter</a></li>";
                         }
                         ?>

@@ -7,6 +7,8 @@ require_once('controller/mediaController.php');
 require_once('controller/activationController.php');
 require_once('controller/historyController.php');
 require_once('controller/contactUsController.php');
+require_once('controller/accountController.php');
+require_once('controller/notFoundController.php');
 
 /***************************
  * ----- HANDLE ACTION -----
@@ -47,6 +49,13 @@ if (isset($_GET['action'])):
             contactUsPage();
             break;
 
+        case 'myaccount':
+            accountPage();
+            break;
+
+        default:
+            notFoundPage();
+            break;
     endswitch;
 
 else:
