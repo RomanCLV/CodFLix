@@ -8,27 +8,34 @@ require_once('model/history.php');
 
 function historyPage()
 {
-    if (isset($_GET["delete"]))
-    {
-        History::deleteHistoryById($_GET["delete"]);
-        header('location: index.php?action=history ');
-    }
-    else if (isset($_GET["deleteall"]))
-    {
-        History::deleteHistoriesByUserId($_GET["deleteall"]);
-        header('location: index.php?action=history ');
-    }
-    else {
-        $historySql = History::getHistoryByUserId($_SESSION["user_id"]);
-        $history = array();
-        $episodesIds = array();
-        $watchDurations = array();
-        foreach ( $historySql as $key => $value) {
-            array_push($history, Media::getMediaById($value["media_id"]));
-            array_push($episodesIds, $value["episode_id"]);
-            array_push($watchDurations, $value["watch_duration"]);
-        }
+    $user = new stdClass();
+    $user->id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : false;
 
-        require('view/historyView.php');
-    }
+    if (!$user->id):
+        require('view/homeView.php');
+    else:
+        if (isset($_GET["delete"]))
+        {
+            History::deleteHistoryById($_GET["delete"]);
+            header('location: index.php?action=history ');
+        }
+        else if (isset($_GET["deleteall"]))
+        {
+            History::deleteHistoriesByUserId($_SESSION["user_id"]);
+            header('location: index.php?action=history ');
+        }
+        else {
+            $historySql = History::getHistoryByUserId($_SESSION["user_id"]);
+            $history = array();
+            $episodesIds = array();
+            $watchDurations = array();
+            foreach ( $historySql as $key => $value) {
+                array_push($history, Media::getMediaById($value["media_id"]));
+                array_push($episodesIds, $value["episode_id"]);
+                array_push($watchDurations, $value["watch_duration"]);
+            }
+
+            require('view/historyView.php');
+        }
+    endif;
 }
