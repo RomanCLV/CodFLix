@@ -4,17 +4,17 @@ require_once('database.php');
 
 /**
  * Class User
- * @property int $id
- * @property string $email
- * @property string $password
- * @property bool|null $isActive
+ * @property $id
+ * @property $email
+ * @property $password
+ * @property $isActive
  */
 class User
 {
     protected $id;
-    protected string $email;
-    protected string $password;
-    protected ?bool $isActive;
+    protected $email;
+    protected $password;
+    protected $isActive;
 
     /***************************
      * ----- CONSTRUCTOR -------
@@ -46,7 +46,7 @@ class User
 
     public function setEmail($email): void
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)):
+        if ($email == null || !filter_var($email, FILTER_VALIDATE_EMAIL)):
             throw new Exception('Email incorrect');
         endif;
         $this->email = $email;
@@ -54,6 +54,9 @@ class User
 
     public function setPassword($password, $password_confirm): void
     {
+        if ($password == null ) {
+            throw new Exception('Vous devez entrez un mot de passe');
+        }
         if (strpos($password, " ") != false) {
             throw new Exception('Le mot de passe ne peut pas contenir d\'espace');
         }
@@ -136,7 +139,7 @@ class User
      * Send an email with a link to active an user account.
      * @return bool if the mail was send or not
      */
-    private function sendActivationMail(): bool
+    public function sendActivationMail(): bool
     {
         $userSql = $this->getUserByEmail();
         $userId = $userSql["id"];

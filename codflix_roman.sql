@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  jeu. 25 juin 2020 à 18:07
+-- Généré le :  jeu. 25 juin 2020 à 20:49
 -- Version du serveur :  10.4.11-MariaDB
 -- Version de PHP :  7.4.1
 
@@ -21,9 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `codflix`
 --
-
-DROP DATABASE IF EXISTS `codflix`;
-CREATE DATABASE `codflix`;
 
 -- --------------------------------------------------------
 
@@ -225,7 +222,7 @@ ALTER TABLE `series`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Contraintes pour les tables déchargées

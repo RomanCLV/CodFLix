@@ -15,22 +15,40 @@ function accountPage() : void
         require('view/homeView.php');
     else:
         $userData = user::getUserById($_SESSION['user_id']);
-        $user = new User();
-        $user->setId($userData["id"]);
-        $user->setEmail($userData["email"]);
-        $user->setPassword($userData["password"], $userData["password"]);
-        $user->setIsActive($userData["isActive"]);
 
-        echo "<p>UserData : </p>";
-        foreach ($userData as $key => $value) {
-            echo "<p> key : $key --- value : $value </p>";
+        if (isset($_POST["sendEmailActivation"])) {
+            $user = new User();
+            $user->setEmail($userData["email"]);
+            $success_msg = $user->sendActivationMail() ?
+                "Un mail d'activation s'est envoyé" :
+                "Le mail d'activation n'a pas pu être envoyé";
         }
-        echo "<p>User : </p>";
-        echo "<p>$user</p>";
+        else if (isset($_POST["changeEmail"])) {
+            if (strlen($_POST["newEmail"]) === 0) {
+                $error_changeMail_msg = "Veuillez saisir un email.";
+            }
+            if ($_POST["newEmail"] == $userData["email"] ) {
+                $error_changeMail_msg = "Vous avez sélectionné votre email courant.";
+            }
+            if ($_POST["newEmail"] == $_POST["newEmailConfirm"] ) {
+                $error_changeMail_msg = "Vos emails sont différents email.";
+            }
+            $user = new User();
+            try {
+                $user->setEmail($_POST["newEmail"]);
+            }
+            catch (Exception $e) {
+                $error_changeMail_msg = "Mail incorrect.";
+            }
+            if ($user->getEmail() === $_POST["newEmail"]) {
+                $user->setIsActive(false);
+                $user->sendActivationMail();
+            }
+        }
+        else if (isset($_POST["changePassword"])) {
 
-        echo "<p>----------------</p>";
+        }
 
         require('view/accountView.php');
     endif;
-
 }
