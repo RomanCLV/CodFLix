@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  mer. 24 juin 2020 à 23:27
+-- Généré le :  jeu. 25 juin 2020 à 18:07
 -- Version du serveur :  10.4.11-MariaDB
 -- Version de PHP :  7.4.1
 
@@ -43,7 +43,8 @@ CREATE TABLE `genre` (
 INSERT INTO `genre` (`id`, `name`) VALUES
 (1, 'Action'),
 (2, 'Horreur'),
-(3, 'Science-Fiction');
+(3, 'Science-Fiction'),
+(4, 'Adolescent');
 
 -- --------------------------------------------------------
 
@@ -61,6 +62,21 @@ CREATE TABLE `history` (
   `finish_date` datetime DEFAULT NULL,
   `watch_duration` int(11) NOT NULL DEFAULT 0 COMMENT 'in seconds'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `history`
+--
+
+INSERT INTO `history` (`id`, `user_id`, `media_id`, `episode_id`, `lastTimeOpened`, `start_date`, `finish_date`, `watch_duration`) VALUES
+(4, 1, 3, 1, '2020-06-25 00:46:25', NULL, NULL, 0),
+(5, 1, 1, NULL, '2020-06-25 09:48:22', NULL, NULL, 0),
+(6, 1, 2, NULL, '2020-06-24 22:26:00', NULL, NULL, 0),
+(7, 1, 3, 3, '2020-06-25 00:45:54', NULL, NULL, 0),
+(8, 1, 3, 5, '2020-06-24 22:26:08', NULL, NULL, 0),
+(9, 1, 3, 4, '2020-06-24 22:26:09', NULL, NULL, 0),
+(10, 1, 3, 2, '2020-06-25 00:46:12', NULL, NULL, 0),
+(23, 2, 3, 1, '2020-06-25 15:56:09', NULL, NULL, 0),
+(25, 2, 1, NULL, '2020-06-25 15:56:14', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -131,6 +147,14 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `password`, `isActive`) VALUES
+(1, 'roman.clavier.2001@gmail.com', '530fe0e0d55493c93d3140b0f8fc929323ec34a82ddeb60bbf5090e5e3b49b5e', 1),
+(2, 'coding@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 0);
+
+--
 -- Index pour les tables déchargées
 --
 
@@ -177,31 +201,31 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `genre`
 --
 ALTER TABLE `genre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT pour la table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `series`
 --
 ALTER TABLE `series`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées

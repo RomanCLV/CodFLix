@@ -39,12 +39,12 @@ class User
      * -------- SETTERS ---------
      ***************************/
 
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    public function setEmail($email) : void
+    public function setEmail($email): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)):
             throw new Exception('Email incorrect');
@@ -52,7 +52,7 @@ class User
         $this->email = $email;
     }
 
-    public function setPassword($password, $password_confirm) : void
+    public function setPassword($password, $password_confirm): void
     {
         if (strpos($password, " ") != false) {
             throw new Exception('Le mot de passe ne peut pas contenir d\'espace');
@@ -68,26 +68,30 @@ class User
         $this->password = hash('sha256', $password);
     }
 
+    public function setIsActive($isActive) {
+        $this->isActive = $isActive;
+    }
+
     /***************************
      * -------- GETTERS ---------
      ***************************/
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getPassword() : string
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function getIsActive() : ?bool
+    public function getIsActive(): ?bool
     {
         return $this->isActive;
     }
@@ -100,7 +104,7 @@ class User
      * @return bool Return true if a activation mail was send, else return false.
      * @throws Exception If the user already exists
      */
-    public function createUser() : bool
+    public function createUser(): bool
     {
         // Open database connection
         $db = init_db();
@@ -132,7 +136,7 @@ class User
      * Send an email with a link to active an user account.
      * @return bool if the mail was send or not
      */
-    private function sendActivationMail() : bool
+    private function sendActivationMail(): bool
     {
         $userSql = $this->getUserByEmail();
         $userId = $userSql["id"];
@@ -140,7 +144,7 @@ class User
         $message = "
         Bienvenue sur Cod'Flix,
         Pour activer votre compte, veuillez cliquer sur le lien ci-dessous
-        ou copier/coller dans votre navigateur Internet.\n". $link . "\n--------------- 
+        ou copier/coller dans votre navigateur Internet.\n" . $link . "\n--------------- 
         Ceci est un mail automatique, Merci de ne pas y répondre.";
 
         return mail($this->getEmail(),
@@ -157,20 +161,20 @@ class User
      * Active an user account.
      * @param int $id The user's id.
      */
-    public static function activationById($id) : void
+    public static function activationById($id): void
     {
         // Open database connection
         $db = init_db();
         $sql = "UPDATE user SET `isActive`=1 WHERE id = " . $id;
         $req = $db->prepare($sql);
         //$req->execute(array($id));
-         $req->execute();
+        $req->execute();
         // Close database connection
         $db = null;
     }
 
     /**************************************
-     * -------- GET USER DATA BY ID --------
+     * -------- GET USER BY ID --------
      ***************************************/
 
     /**
@@ -191,7 +195,7 @@ class User
         return $req->fetch();
     }
 
-    /***************************************
+    /****************************************
      * ------- GET USER DATA BY EMAIL -------
      ****************************************/
 
@@ -210,5 +214,19 @@ class User
         // Close database connection
         $db = null;
         return $req->fetch();
+    }
+
+    /************************************
+     * ------- OVERRIDE TO STRING -------
+     ***********************************/
+
+    /**
+     * Return user as { id, email, password, isActive }
+     * @return string
+     */
+    public function __toString()
+    {
+        return "{ id : " . $this->id  . " ; email : " . $this->email . " ; password : " . $this->password .
+            " ; isActive : " . $this->isActive . " }";
     }
 }
