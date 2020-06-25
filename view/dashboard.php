@@ -16,27 +16,27 @@
                 <div class="sidebar-menu">
                     <ul>
                         <?php
-                            if (isset($_SESSION["user_id"])) {
-                                if (isset($_GET["action"]) && $_GET["action"] === "media") {
-                                    echo "<li class=\"active\"><a href=\"index.php?action=media\">Médias</a></li>";
-                                } else {
-                                    echo "<li><a href=\"index.php?action=media\">Médias</a></li>";
-                                }
-
-                                if (isset($_GET["action"]) && $_GET["action"] === "history") {
-                                    echo "<li class=\"active\"><a href=\"index.php?action=history\">Historique</a></li>";
-                                } else {
-                                    echo "<li><a href=\"index.php?action=history\">Historique</a></li>";
-                                }
-
-                                if (isset($_GET["action"]) && $_GET["action"] === "contactus") {
-                                    echo "<li class=\"active\"><a href=\"index.php?action=contactus\">Nous contacter</a></li>";
-                                } else {
-                                    echo "<li><a href=\"index.php?action=contactus\">Nous contacter</a></li>";
-                                }
-
-                                echo "<li><a href=\"index.php?action=logout\">Me déconnecter</a></li>";
+                        if (isset($_SESSION["user_id"])) {
+                            if (isset($_GET["action"]) && $_GET["action"] === "media") {
+                                echo "<li class=\"active\"><a href=\"index.php?action=media\">Médias</a></li>";
+                            } else {
+                                echo "<li><a href=\"index.php?action=media\">Médias</a></li>";
                             }
+
+                            if (isset($_GET["action"]) && $_GET["action"] === "history") {
+                                echo "<li class=\"active\"><a href=\"index.php?action=history\">Historique</a></li>";
+                            } else {
+                                echo "<li><a href=\"index.php?action=history\">Historique</a></li>";
+                            }
+
+                            if (isset($_GET["action"]) && $_GET["action"] === "contactus") {
+                                echo "<li class=\"active\"><a href=\"index.php?action=contactus\">Nous contacter</a></li>";
+                            } else {
+                                echo "<li><a href=\"index.php?action=contactus\">Nous contacter</a></li>";
+                            }
+
+                            echo "<li><a href=\"index.php?action=logout\">Me déconnecter</a></li>";
+                        }
                         ?>
                     </ul>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="content p-4">
                     <?= $content; ?>
                 </div>
-                <footer>Copyright Cod'Flix</footer>
+                <footer>Copyright Cod'Flix © Roman Clavier</footer>
             </div>
         </div>
 
