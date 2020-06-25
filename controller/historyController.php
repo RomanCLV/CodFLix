@@ -16,7 +16,7 @@ function historyPage()
     else:
         if (isset($_GET["delete"]))
         {
-            History::deleteHistoryById($_GET["delete"]);
+            History::deleteHistoryByIdAndUserId($_GET["delete"], $_SESSION["user_id"]);
             header('location: index.php?action=history ');
         }
         else if (isset($_GET["deleteall"]))

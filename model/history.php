@@ -67,11 +67,12 @@ class History
     /**
      * Delete a history with an id.
      * @param int $historyId The history's id.
+     * @param int $userID The user's id.
      */
-    public static function deleteHistoryById($historyId) : void
+    public static function deleteHistoryByIdAndUserId($historyId, $userID) : void
     {
         $db = init_db();
-        $sql = "DELETE FROM history WHERE id = " . $historyId;
+        $sql = "DELETE FROM history WHERE id = " . $historyId . " AND user_id = " . $userID;
         $req = $db->prepare($sql);
         $req->execute();
     }
