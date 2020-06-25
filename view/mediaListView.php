@@ -28,11 +28,18 @@
             </div>
         </div>
         <div class="title"><?= $media['title']; ?></div>
-            <?php
-                $date = explode('-', $media['release_date']);
-                echo "<div class=\"title\">$date[2] / $date[1] / $date[0]</div>";
-            ?>
-        </a>
+        <?php
+            $date = explode('-', $media['release_date']);
+            $date = $date[2] . " / " . $date[1]  . " / " . $date[0];
+        ?>
+        <div class="text-md-center">
+            <div class="text-decoration-none">
+                <span style="color: white">
+                    <?= $date ?>
+                </span>
+            </div>
+        </div>
+    </a>
     <?php endforeach; ?>
 </div>
 
