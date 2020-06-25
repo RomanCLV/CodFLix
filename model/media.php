@@ -119,16 +119,86 @@ class Media
 
     /**
      * Get all medias which name contains title searched.
-     * @param string $title The title searched.
-     * @return array An array with the medias.
+     * @param string|null $title The media's title.
+     * @param int|null $genreId The id of the searched gender.
+     * @param string|null $type A string to research a type. Example "Film", "Série".
+     * @param string|null $releaseDate A date 'yyyy-mm-dd'.
+     * @param string|null $typeDate Information "after" or "before".
+     * @return array
      */
-    public static function filterMedias($title) : array
+    public static function filterMedias($title = null, $genreId = null, $type = null, $releaseDate = null, $typeDate = null) : array
     {
         // Open database connection
         $db = init_db();
-        $sql = "SELECT * FROM media WHERE title LIKE " . '"%' . $title . '%"' . " ORDER BY release_date DESC";
+        $sql = "SELECT * FROM media WHERE ";
+
+        $fields = [];
+
+        if ($title != null) {
+            array_push($fields, "title LIKE '%" . $title . "%'");
+        }
+
+        if ($genreId != null) {
+            array_push($fields, "genre_id = " . $genreId);
+        }
+
+        if ($type != null) {
+            array_push($fields, "type = '" . $type . "'");
+        }
+        if ($releaseDate != null) {
+            $operator = $typeDate === "after" ? ">" : ($typeDate === "before" ? "<" : "");
+            array_push($fields, "release_date " . $operator . "= '" . $releaseDate . "'");
+        }
+
+        if (sizeof($fields) > 0) {
+            $sql .= join(" AND ", $fields);
+        }
+        else {
+            $sql .= "1";
+        }
+        $sql .= " ORDER BY title DESC";
+
         $req = $db->prepare($sql);
-        //$req->execute( array( '%' . $title . '%' ));
+        $req->execute();
+        // Close database connection
+        $db = null;
+        return $req->fetchAll();
+    }
+
+    /*****************************
+     * ----- GET ALL GENDERS -----
+     *****************************/
+
+    /**
+     * Get all gender.
+     * @return array A map["id", "name"].
+     */
+    public static function getAllGenders()
+    {
+        // Open database connection
+        $db = init_db();
+        $sql = "SELECT * FROM genre WHERE 1 ORDER BY name ASC";
+        $req = $db->prepare($sql);
+        $req->execute();
+        // Close database connection
+        $db = null;
+        return $req->fetchAll();
+    }
+
+    /********************************
+     * ----- GET ALL MEDIA TYPE -----
+     *******************************/
+
+    /**
+     * Get all media type.
+     * @return array An array with array["type"].
+     */
+    public static function getAllMediaType()
+    {
+        // Open database connection
+        $db = init_db();
+        $sql = "SELECT type FROM media WHERE 1 GROUP BY type";
+        $req = $db->prepare($sql);
         $req->execute();
         // Close database connection
         $db = null;

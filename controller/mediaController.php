@@ -37,8 +37,25 @@ function mediaPage(): void
         require('view/mediaDetailsView.php');
     }
     else {
-        $search = isset($_GET['title']) ? $_GET['title'] : null;
-        $medias = Media::filterMedias($search);
+        $searchTitle = isset($_POST['title']) ? $_POST['title'] : null;
+        $searchDate = isset($_POST['selectDate']) ? $_POST['selectDate'] : "after";
+        $searchDateDay = isset($_POST['inputDate']) ? $_POST['inputDate'] : null;
+        $searchGenre = isset($_POST['selectGender']) && $_POST['selectGender'] != 'null' ? $_POST['selectGender'] : null;
+        $searchGenreId = null;
+        $searchType = isset($_POST['selectType']) && $_POST['selectType'] != 'null'  ? $_POST['selectType'] : null;
+
+        $types = Media::getAllMediaType();
+        $genres = Media::getAllGenders();
+
+        foreach ($genres as $key => $item) {
+            if ($item["name"] === $searchGenre) {
+                $searchGenreId = $item["id"];
+                break;
+            }
+        }
+
+        $medias = Media::filterMedias($searchTitle, $searchGenreId, $searchType, $searchDateDay, $searchDate);
+
         require('view/mediaListView.php');
     }
 }

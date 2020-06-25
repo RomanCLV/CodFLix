@@ -1,13 +1,39 @@
 <?php ob_start(); ?>
 
 <div class="row">
-    <div class="col-md-4 offset-md-8">
-        <form method="get">
+    <div class="col-md-12">
+        <form method="post">
             <div class="form-group has-btn">
-                <input type="search" id="search" name="title" value="<?= $search; ?>" class="form-control"
-                       placeholder="Rechercher un film ou une série">
 
+                <select class="custom-select col-2" name="selectDate">
+                    <option value="before" <?= $searchDate === "before" ? "selected" : "" ?>>Avant</option>
+                    <option value="after" <?= $searchDate === "after" ? "selected" : "" ?>>Après</option>
+                </select>
+                <input type="date" name="inputDate" class="input-group col-2" value="<?= $searchDateDay ?>" />
+
+                <select class="custom-select  col-2" name="selectGender">
+                    <option value='null' <?= $searchGenre == null ? "selected" : "" ?>>Genre</option>
+                    <?php
+                        foreach ($genres as $gender) {
+                            $item = $gender["name"];
+                            echo "<option value='$item' " . ($searchGenre == $item ? "selected" : "") . ">$item</option>";
+                        }
+                    ?>
+                </select>
+                <select class="custom-select  col-2" name="selectType">
+                    <option value='null'>Type</option>
+                    <?php
+                    foreach ($types as $type) {
+                        $item = $type["type"];
+                        echo "<option value='$item' " . ($searchType == $item ? "selected" : "") . ">$item</option>";
+                    }
+                    ?>
+                </select>
+
+                <input type="search" id="search" name="title" value="<?= $searchTitle; ?>" class="form-control"
+                       placeholder="Rechercher un film ou une série">
                 <button type="submit" class="btn btn-block bg-red">Valider</button>
+
             </div>
         </form>
     </div>
